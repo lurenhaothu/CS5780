@@ -144,6 +144,31 @@
 	\]
 	Hence,
 	\[
-		p(y=1|\textbf{x})=\frac{1}{1}
+		\begin{split}
+			p(y=1|\textbf{x})&=\frac{1}{1+\frac{p(y=0)}{p(y=1)}\exp{\left(\sum_{\alpha=1}^d{-\log{\frac{p([\textbf{x}]_\alpha|y=1)}{p([\textbf{x}]_\alpha|y=0)}}}\right)}}\\
+			&=\frac{1}{1+\frac{p(y=0)}{p(y=1)}\exp{\left(\sum_{\alpha=1}^d{\frac{([\textbf{x}]_{\alpha}-[\mu_0]_{\alpha})^2-([\textbf{x}]_{\alpha}-[\mu_1]_{\alpha})^2}{2[\sigma]_{\alpha}}}\right)}}\\
+			&=\frac{1}{1+\frac{p(y=0)}{p(y=1)}\exp{\left(\sum_{\alpha=1}^d{\frac{2([\mu_1]_{\alpha}- [\mu_0]_{\alpha})[\textbf{x}]_{\alpha}+([\mu_0]_{\alpha}^2-[\mu_1]_{\alpha}^2)}{2[\sigma]_{\alpha}}}\right)}}
+		\end{split}
 	\]
+	We assume:
+	\[\textbf{w}=[w_1, w_2,...,w_b], w_\alpha=\frac{[\mu_1]_{\alpha}- [\mu_0]_{\alpha}}{[\sigma]_{\alpha}}\]
+	\[b=\sum{b_\alpha}+b_0, b_0=\log{\frac{p(y=0)}{p(y=1)}}, b_\alpha=\frac{[\mu_0]_{\alpha}^2-[\mu_1]_{\alpha}^2}{2[\sigma]_{\alpha}}\]
+	Hence,
+	\[\begin{split}
+		p(y=1|\textbf{x})&=\frac{1}{1+\exp{\left(b_0+\sum_{\alpha=1}^d {(w_\alpha[\textbf{x}]_\alpha+b_\alpha)}\right)}}\\
+		&=\frac{1}{1+\exp{\left(\textbf{w}^T\textbf{x}+b\right)}}
+	\end{split}\]
+	From the formula above, whether $p(y=1|\textbf{x}) > p(y=0|\textbf{x})$ is decided by whether $\textbf{w}^T\textbf{x}+b>0$, hence this Naive Bayes is a linear model.
+	
+	\section{Gradient for Logistic Regression}
+	\subsection{Show the sigmoid function property}
+	\[\begin{split}
+		\sigma(s)+\sigma(-s)&=\frac{1}{1+e^{-s}}+\frac{1}{1+e^{s}}\\
+		&=\frac{e^s}{1+e^{s}}+\frac{1}{1+e^{s}}=1
+	\end{split}\]
+	Hence, $\sigma(-s)=1-\sigma(s)$
+	
+	\subsection{Compute the gradient of the log likelihood function}
+	\subsubsection{first derivative}
+	\[\sigma'(s)=\]
 \end{document}

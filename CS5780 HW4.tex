@@ -1,0 +1,149 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper, margin=1in]{geometry}
+\usepackage{amsmath}
+
+\title{CS5780 HW4}
+\author{Renhao Lu, NetID: rl839}
+	
+\begin{document}
+	\maketitle
+	
+	\section{Problem1: Linear Regression}
+	\subsection{Compute the closed form solution for $\textbf{w}$}
+	Using the formula in class:
+	\[
+	\textbf{w} = 
+		(\textbf{X} \textbf{X}^T) ^{-1}
+		\textbf{X}
+			\textbf{y}^T
+	\]
+	where $\textbf{X}=\begin{pmatrix} 1 & 1 & 1 & 1 & 1 \\ -1 & 0 & 1 & 2 & 3\end{pmatrix}$ and  $\textbf{y}=\begin{pmatrix} 4 & 3 & -4& 3 & 7 \end{pmatrix}$\\
+	Hence,
+	\[\begin{split}
+		\textbf{w}&=(\textbf{X}\textbf{X}^T)^{-1}\textbf{X}\textbf{y}^T\\
+		&=\begin{pmatrix} 5 & 5 \\ 5 & 15\end{pmatrix}^{-1}\textbf{X}\textbf{y}^T\\
+		&=\begin{pmatrix} 0.3 & -0.1 \\ -0.1 & 0.1\end{pmatrix}\textbf{X}\textbf{y}^T\\
+		&=\begin{pmatrix} 0.4 & 0.3 & 0.2 & 0.1 & 0 \\ -0.2 & -0.1 & 0 & 0.1 & 0.2\end{pmatrix}\textbf{y}^T\\
+		&=\begin{pmatrix} 2 \\ 0.6\end{pmatrix}
+	\end{split}\]
+	
+	\subsection{Calculate the training loss}
+	\[
+		\begin{split}
+			l(\textbf{w})&=\sum (y_i-\textbf{w}^T\phi(x_i)^2)\\
+			&={||\textbf{y}-\textbf{w}^textbf{X}||}_2^2\\
+			&={||\begin{pmatrix} 2.6 & 1 & -6.6 & -0.2 & 3.2 \end{pmatrix}||}_2^2\\
+			&=61.6
+		\end{split}
+	\]
+	
+	\section{Problem: Linearity of Gaussian Naive Bayes}
+	\subsection{Show that the decision rule}
+	According to the law of total probability:
+	\[
+		\begin{split}
+			p(\textbf{x}) &= p(y=1)p(\textbf{x}|y=1)+p(y=0)p(\textbf{x}|y=0)\\
+			&=p(y=1)\prod_{\alpha=1}^d {p([\textbf{x}]_{\alpha}|y=1)} +p(y=0)\prod_{\alpha=1}^d {p([\textbf{x}]_{\alpha}|y=0)}
+		\end{split}
+	\]
+	Hence,
+	\[
+		\begin{split}
+			p(y=1|\textbf{x}) &=\frac{
+				p(y=1) 
+				\prod_{\alpha=1}^d {
+					p([\textbf{x}]_{\alpha}|y=1)
+				} 
+			}{
+				p(\textbf{x})
+			} \\
+			&=\frac{
+				p(y=1)\prod_{\alpha=1}^d {
+					p([\textbf{x}]_{\alpha}|y=1)
+				}
+			}{
+				p(y=1)\prod_{\alpha=1}^d {
+					p([\textbf{x}]_{\alpha}|y=1)
+				}
+				+p(y=0)\prod_{\alpha=1}^d {
+					p([\textbf{x}]_{\alpha}|y=0)
+				}
+			}
+		\end{split}
+	\]
+	
+	\subsection{Show how to rewrite}
+	From the formula we got from 1:
+	\[
+		\begin{split}
+			p(y=1|\textbf{x}) 
+			&=\frac{
+				p(y=1)\prod_{\alpha=1}^d {
+					p([\textbf{x}]_{\alpha}|y=1)
+				}
+			}{
+				p(y=1)\prod_{\alpha=1}^d {
+					p([\textbf{x}]_{\alpha}|y=1)
+				}
+				+p(y=0)\prod_{\alpha=1}^d {
+					p([\textbf{x}]_{\alpha}|y=0)
+				}
+			}\\
+			&=\frac{1}{
+				1 + \frac{
+					p(y=0)\prod_{\alpha=1}^d {
+						p([\textbf{x}]_{\alpha}|y=0)
+					}
+				}{
+					p(y=1)\prod_{\alpha=1}^d {
+						p([\textbf{x}]_{\alpha}|y=1)
+					}
+				}
+			}\\
+			&=\frac{1}{
+				1 + exp(
+					-log(
+						\frac{
+							p(y=1)\prod_{\alpha=1}^d {
+								p([\textbf{x}]_{\alpha}|y=1)
+							}
+						}{
+							p(y=0)\prod_{\alpha=1}^d {
+								p([\textbf{x}]_{\alpha}|y=0)
+							}
+						}
+					)
+				)
+			}\\
+		\end{split}
+	\]
+	\subsection{Show that Naive Bayes is a linear model}
+	Because
+	\[
+		p([\textbf{x}]_{\alpha}|y=1)=
+		\frac{1}{\sqrt{2\pi[\sigma_{\alpha}]}}
+		\exp\left({
+			\frac{
+			-([\textbf{x}]_{\alpha}-[\mu_1]_{\alpha})^2
+			}{
+				2[\sigma]_{\alpha}
+			}
+		}\right)
+	\]
+	\[
+		p([\textbf{x}]_{\alpha}|y=0)=
+		\frac{1}{\sqrt{2\pi[\sigma_{\alpha}]}}
+		\exp\left({
+			\frac{
+			-([\textbf{x}]_{\alpha}-[\mu_0]_{\alpha})^2
+			}{
+				2[\sigma]_{\alpha}
+			}
+		}\right)
+	\]
+	Hence,
+	\[
+		p(y=1|\textbf{x})=\frac{1}{1}
+	\]
+\end{document}

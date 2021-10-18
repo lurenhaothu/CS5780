@@ -4,6 +4,7 @@
 \usepackage{amsmath}
 \usepackage{tikz}
 \usepackage{pgfplots}
+\usepackage{amssymb }
 
 \title{CS5780 HW4}
 \author{Renhao Lu, NetID: rl839}
@@ -251,7 +252,8 @@
 		&w_0=13, f(w_0)=5\times2^4=80\\
 		&w_1=13-\frac 1 2\times 2^3=9, f(w_1)=5\times2^4=80\\
 		&w_2=9-\frac 1 2\times (-2)^3=13, f(w_2)=5\times2^4=80\\
-		&w_3=13-\frac 1 2\times 2^3=9, f(w_3)=5\times2^4=80
+		&w_3=13-\frac 1 2\times 2^3=9, f(w_3)=5\times2^4=80\\
+		&...
 	\end{split}\]
 	The gradient descent is bouncing between $9$ and $13$ and will never converge.
 	\begin{center}
@@ -288,4 +290,14 @@
 			\end{axis}
 		\end{tikzpicture}
 		\end{center}
+	
+	\section{Problem: Derivation for Hard-margin Linear SVMs}
+	\subsection{Prove the optimal solution of formulation A is a feasible solution for formulation B}
+	Note the optimal solution of frmulation A is $\textbf{w}_A$. Then $\forall_iy_i(\textbf{w}_A^T\textbf{x}_i+b)\geq 0$ and $min_i|\textbf{w}_A^T\textbf{x}_i+b|=1$. Because $y_i=1or-1$, $min_iy_i(\textbf{w}_A^T\textbf{x}_i+b)=1$. Hence, $\forall_iy_i(\textbf{w}_A^T\textbf{x}_i+b)\geq 1$. $\textbf{w}_A$ is a feasible solution for B.$\blacksquare$
+	\subsection{Prove the optimal solution of formulation B is a feasible solution for formulation A}
+	Note the optimal solution of frmulation B is $\textbf{w}_B$, then $\forall_i,y_i(\textbf{w}_B^T\textbf{x}_i+b)\geq1$. Then obviously $\forall_iy_i(\textbf{w}_B^T\textbf{x}_i+b)\geq0$. Now we need to consider $min_i|\textbf{w}_B^T\textbf{x}_i+b|$\par
+	We can prove $min_i|\textbf{w}_B^T\textbf{x}_i+b|=1$ by contradiction. We assume $min_i|\textbf{w}_B^T\textbf{x}_i+b|=p>1$, then we use a new weight vector $\textbf{w}_B'=\frac{\textbf{w}_B}{p}$. Because $p>1$, $\textbf{w}_B'^T\textbf{w}_B'=\frac{\textbf{w}_B^T\textbf{w}_B}{p^2}<\textbf{w}_B^T\textbf{w}_B$ And $\forall_i,y_i(\textbf{w}_B'^T\textbf{x}_i+b)\geq\frac p p=1$. Then $\textbf{w}_B$ cannot be optimal because $\textbf{w}_B'$ is better. $\blacksquare$
+	
+	\subsection{Prove that for the optimal solution in formulation A is the optimal solution for formulation B and vice versa}
+	We note $\textbf{w}_A$ as the optimal solution in A, and $\textbf{w}_B$ as the optimal solution in B. From the previous questions, we know that $\textbf{w}_A$ is a feasible solution for B, so $\textbf{w}_A\leq\textbf{w}_B$. Similiarly, $\textbf{w}_B$ is also a feasible solution for A, so $\textbf{w}_B\leq\textbf{w}_A$. Hence $\textbf{w}_B=\textbf{w}_A\blacksquare$
 \end{document}
